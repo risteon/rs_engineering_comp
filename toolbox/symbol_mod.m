@@ -2,6 +2,7 @@ function [ s ] = symbol_mod( const_points, b )
 %symbol_mod does PSK modulation for binary input vector
 %   b: binary row vector
 %   const_points: number of psk points (2, 4 or 8)
+%   s: complex symbol vector
 
 if const_points == 2
     % nothing to do here
