@@ -1,6 +1,9 @@
 function [ A ] = carrier_mapping(symbols, fft_len, pilot_method )
 %CARRIER_MAPPING Summary of this function goes here
-%   Detailed explanation goes here
+%   pilot_method: 'A' or 'B'
+
+assert(pilot_method == 'A' | pilot_method == 'B');
+assert(fft_len == 32 | fft_len == 64 | fft_len == 128);
 
 unused_carriers_32 = [-16,-15,-14,0,14,15];
 unused_carriers_64 = [-32,-31,-30,-29,0,29,30,31];
@@ -10,7 +13,7 @@ unused_carriers = 0;
 %for method B
 ofdm_pilot_carriers_32 = [-13,-4,4,13];
 ofdm_pilot_carriers_64 = [-28,-20,-12,-4,4,12,20,28];
-ofdm_pilot_carriers_128 =[-59,-52,-44,-36,-28,-20,-12,-4,+4,+12,+20,+28,+36,+44,+52,+59]
+ofdm_pilot_carriers_128 = [-59,-52,-44,-36,-28,-20,-12,-4,+4,+12,+20,+28,+36,+44,+52,+59];
 ofdm_pilot_carriers = 0;
 
 if(fft_len == 32)
@@ -26,7 +29,7 @@ end
 
 
 ofdm_symbol_generated = 0;
-tx_sym_processed = 0
+tx_sym_processed = 0;
 tx_sym_cnt = length(symbols);
 
 %A = zeros(fft_len,1);
