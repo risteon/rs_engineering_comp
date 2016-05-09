@@ -10,8 +10,6 @@ if const_points == 2
 elseif const_points == 4
     % group by 2 bits
     b = reshape(b, 2, [])
-    % msb first
-    b = flipud(b)
     dec = []
     % convert binary columns to int
     for i = 1:size(b,2)
@@ -21,8 +19,6 @@ elseif const_points == 4
 elseif const_points == 8
     % group by 4 bits
     b = reshape(b, 3, [])
-    % msb first
-    b = flipud(b)
     dec = []
     % convert binary columns to int
     for i = 1:size(b,2)
