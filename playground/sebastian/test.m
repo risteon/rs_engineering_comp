@@ -1,6 +1,6 @@
 prefix_len = 16;
 symbol_len = 64;
-unused_carr = [1, 2, 3, 4, 32, 62, 63, 64];
+unused_carr = [1, 2, 3, 4, 33, 62, 63, 64];
 mod_scheme = 4;
 pilot = 'A';
 
