@@ -49,7 +49,7 @@ if(pilot_method == 'A')
             end
             ofdm_symbol_generated=ofdm_symbol_generated+1;
         else
-        %map symbols
+            %map symbols
             k=0;
             for i=-fft_len/2:fft_len/2-1
                 k = k+1;
@@ -61,12 +61,40 @@ if(pilot_method == 'A')
                     A(k,ofdm_symbol_generated+1) = symbols(tx_sym_processed+1);
                     tx_sym_processed = tx_sym_processed+1;
                 end
-            end            
+            end
             ofdm_symbol_generated=ofdm_symbol_generated+1;
         end
     end
+end
+
+
+if(pilot_method == 'B')
+    finish = 0;
     
-    
+    while ~finish
+        %init time/freq grid
+        A(:,ofdm_symbol_generated+1) = zeros(fft_len,1);
+        
+        k=0;
+        for i=-fft_len/2:fft_len/2-1
+            k = k+1;
+            if(~any(i==unused_carriers))    %dont use unused carriers
+                
+                %map pilots
+                if(any(i==ofdm_pilot_carriers))
+                    A(k,ofdm_symbol_generated+1) = 1;
+                elseif(tx_sym_processed == tx_sym_cnt)
+                    finish = 1;                   
+                else
+                    A(k,ofdm_symbol_generated+1) = symbols(tx_sym_processed+1);
+                    tx_sym_processed = tx_sym_processed+1;
+                end               
+            end            
+            
+        end
+        ofdm_symbol_generated=ofdm_symbol_generated+1;
+        
+    end
     
 end
 
