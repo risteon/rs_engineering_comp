@@ -8,10 +8,19 @@ classdef TestCyclicPrefixAdding < matlab.unittest.TestCase
     
     methods (Test, ParameterCombination='sequential')
         function testSimpleOutput(testCase, inputs, outputs)
-            addpath ../transmitter_model
-            import matlab.unittest.qualifications.Verifiable
+            addpath ../transmitter_model      
             
-            verifyEqual(testCase, cyclic_prefix_adding(inputs), outputs);            
+            testCase.verifyEqual(cyclic_prefix_adding(inputs), outputs);
+        end
+        
+        function testWrongFFTLength(testCase)
+            addpath ../transmitter_model
+            
+            wrong_length = [ 1 2 3; 4 5 6; 1 2 3; 4 5 6;
+                1 2 3; 4 5 6; 1 2 3; 4 5 6; 1 2 3; 4 5 6];
+            
+            testCase.verifyError(@()cyclic_prefix_adding(wrong_length), 'error:size');
+            
         end
     end
     
