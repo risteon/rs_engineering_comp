@@ -5,14 +5,14 @@ function [ offset ] = t_sync_pilot_A( tx_in, fft_len )
 assert(exist('tx_in', 'var') ~= 0, 'tx in not set');
 
 % upsampling factor
-upsampling_l = 32;
+upsampling_l = 64;
 
 pilot_symbol = pilot_gen_freq('A', fft_len);
 pilot_symbol_time_domain = cyclic_prefix_adding(tm_ifft(pilot_symbol));
 
 % perform upsampling on both signals
-pilot_symbol_time_domain = upsample(pilot_symbol_time_domain, upsampling_l);
-tx_upsampled = upsample(tx_in, upsampling_l);
+pilot_symbol_time_domain = resample(pilot_symbol_time_domain, upsampling_l, 1);
+tx_upsampled = resample(tx_in, upsampling_l, 1);
 
 pilot_length = size(pilot_symbol_time_domain, 2);
 considerable_length = max(pilot_length, size(tx_upsampled, 2));

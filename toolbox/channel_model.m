@@ -27,13 +27,20 @@ assert(tau_delay >= 0.0);
 %% delay
 
 leading_zeros = floor(tau_delay);
-frac_samples = tau_delay - leading_zeros;
+frac_samples_delta = tau_delay - leading_zeros;
 
 % add zeros in front
 tx_delayed = [zeros(1, leading_zeros) tx_in];
 
-if frac_samples > 0
-   assert(0, 'not implemented yet, use fdesign.fracdelay');
+if frac_samples_delta > 0
+    % use fractional delay filter for fractional sample delay
+    disp(frac_samples_delta);
+    d = fdesign.fracdelay(frac_samples_delta, 5);
+    hd = design(d,'lagrange','filterstructure','farrowfd');
+
+    tx_delayed = filter(hd, tx_delayed);
+    % subtract two sample offset when using filter order set to 5!
+    tx_delayed = tx_delayed(3:end);
 end
 
 %% complex channel impulse response
