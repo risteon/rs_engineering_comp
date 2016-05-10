@@ -22,13 +22,19 @@ sig = reshape(sig, symbol_len, []);
 if pilot == 'A'
     % delete pilot symbols
     sig(:,1:2:size(sig,2)) = [];
+elseif pilot == 'B'
+    %TODO
 end
 
 fft_sig = fftshift(fft(sig));
 % delete unused carriers
 fft_sig(unused_carr,:) = [];
 
+% psk demodulation
 syms = pskdemod(fft_sig, mod_scheme, pi/mod_scheme);
+% convert int < log2(mod_scheme) to binary
 syms = dec2bin(syms, log2(mod_scheme))';
+% group into bytes
 syms = reshape(syms, 8, []).';
+% ascii decoding
 text = char(bin2dec(syms))'
