@@ -7,7 +7,7 @@ classdef TestTSyncPilotA < matlab.unittest.TestCase
     
     methods (Test, ParameterCombination='sequential')
         function testInputs(testCase, inputs)
-            addpath ../../toolbox
+            addpath ../toolbox
 
             % generate test signal
             tx = signal_generator('long enough ascii text to generate a signal', 4, 64, 'A');
