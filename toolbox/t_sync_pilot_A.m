@@ -4,13 +4,20 @@ function [ offset ] = t_sync_pilot_A( tx_in, fft_len )
 
 assert(exist('tx_in', 'var') ~= 0, 'tx in not set');
 
+% upsampling factor
+upsampling_l = 32;
+
 pilot_symbol = pilot_gen_freq('A', fft_len);
 pilot_symbol_time_domain = cyclic_prefix_adding(tm_ifft(pilot_symbol));
 
-pilot_length = size(pilot_symbol_time_domain, 2);
-considerable_length = max(pilot_length, size(tx_in, 2));
+% perform upsampling on both signals
+pilot_symbol_time_domain = upsample(pilot_symbol_time_domain, upsampling_l);
+tx_upsampled = upsample(tx_in, upsampling_l);
 
-[time_corr, lags] = xcorr(tx_in, pilot_symbol_time_domain);
+pilot_length = size(pilot_symbol_time_domain, 2);
+considerable_length = max(pilot_length, size(tx_upsampled, 2));
+
+[time_corr, lags] = xcorr(tx_upsampled, pilot_symbol_time_domain);
 time_corr = time_corr(considerable_length:end);
 
 % superposition 2-symbol sections of correlation for pilots in method A
@@ -26,7 +33,7 @@ end
 
 % find maximum position and calculate shift
 [~, idx] = max(superpositioned);
-offset = lags(considerable_length -1 + idx);
+offset = lags(considerable_length -1 + idx)/upsampling_l;
 
 end
 
