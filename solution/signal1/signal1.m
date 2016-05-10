@@ -1,14 +1,11 @@
 load('../../material/Signal1.mat');
 
 prefix_len = 16;
-symbol_len = 64;
 mod_scheme = 4;
 pilot = 'A';
 
 %% nothing to change here
-addpath('toolbox')
-window_len = prefix_len + symbol_len;
-n_symbols = length(Signal)/window_len;
+addpath('../../toolbox')
 
 % cut out cyclic prefix
 sig = cut_cp(Signal, prefix_len);
