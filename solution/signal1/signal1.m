@@ -27,9 +27,6 @@ fft_sig = remove_unused(fft_sig, symbol_len);
 
 % psk demodulation
 syms = pskdemod(fft_sig, mod_scheme, pi/mod_scheme);
-% convert int < log2(mod_scheme) to binary
-syms = dec2bin(syms, log2(mod_scheme))';
-% group into bytes
-syms = reshape(syms, 8, []).';
+
 % ascii decoding
-text = char(bin2dec(syms))'
+text = ascii_decoding(syms, mod_scheme)
