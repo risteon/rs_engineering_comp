@@ -1,5 +1,5 @@
 %% Parameters
-addpath('toolbox');
+addpath('../../toolbox');
 data = 'test';
 %   const_points: number of psk points (2, 4 or 8)
 psk_points = 4;

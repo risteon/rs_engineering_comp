@@ -1,4 +1,4 @@
-load('Signal1.mat');
+load('../../material/Signal1.mat');
 
 prefix_len = 16;
 symbol_len = 64;
