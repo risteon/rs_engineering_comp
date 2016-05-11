@@ -14,9 +14,9 @@ elseif method == 'B'
     if fft_len == 32
         pilot_indixes = [1 10 17 26];
     elseif fft_len == 64
-        pilot_indixes = [1 9 17 25 32 40 48 56]
+        pilot_indixes = [1 9 17 25 32 40 48 56];
     elseif fft_len == 128
-        pilot_indixes = [1 8 16 24 32 40 48 56 63 71 79 87 95 103 111 118]
+        pilot_indixes = [1 8 16 24 32 40 48 56 63 71 79 87 95 103 111 118];
     end
     in_sig(pilot_indixes,:) = [];
 end
