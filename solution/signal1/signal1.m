@@ -17,7 +17,7 @@ sig = reshape(sig, symbol_len, []);
 sig = remove_pilot(sig, 'A', symbol_len);
 
 % fftshift
-fft_sig = fftshift(fft(sig));
+fft_sig = fftshift(fft(sig),1);
 
 % delete unused carriers
 fft_sig = remove_unused(fft_sig, symbol_len);

@@ -17,14 +17,14 @@ fft_sig = remove_unused(fft_sig, symbol_len);
 H=fft_sig(:,1:2:end);
 
 %simple channel correction
-fft_sig(:,2:2:end) = fft_sig(:,2:2:end)./conj(H);
+fft_sig(:,2:2:end) = fft_sig(:,2:2:end).*conj(H)./(abs(H).^2);
 
 fft_sig = remove_pilot(fft_sig, 'A', symbol_len);
 
 plot(reshape(fft_sig,[],1),'*');
 
 % psk demodulation
-syms = pskdemod(fft_sig, mod_scheme,0*pi/4);
+syms = pskdemod(fft_sig, mod_scheme,0);
 ascii_decoding(syms, mod_scheme)
 
 % calculate channel
@@ -36,7 +36,7 @@ H_abs = mean(H_abs.')';
 ideal = pskmod(syms, mod_scheme);
 fft_noise = fft_sig-ideal;
 fft_noise = reshape(fft_noise, 1, []);
-plot(fft_noise, '*');
+% plot(fft_noise, '*');
 p_noise = var(fft_noise)
 
 p_sig = 1;
