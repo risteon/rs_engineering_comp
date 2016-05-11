@@ -9,7 +9,7 @@ function [ out_sig ] = shape_ofdm( in_sig, fft_len, cp_len )
 out_sig = cut_cp(in_sig, cp_len);
 % create matrix with OFDM symbol in every column
 out_sig = reshape(out_sig, fft_len, []);
-out_sig = fftshift(fft(out_sig));
+out_sig = fftshift(fft(out_sig),1);
 
 end
 
