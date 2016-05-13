@@ -59,7 +59,7 @@ tx_freq_offset = tx_channel_res .* exp(drehvector);
 
 if snr ~= Inf(1)
     % exact definition of SNR in task description is currently ignored...
-    rx_out = awgn(tx_freq_offset, snr);
+    rx_out = awgn(tx_freq_offset, snr, 'measured');
 else
     rx_out = tx_freq_offset;
 end
