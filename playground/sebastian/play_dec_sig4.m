@@ -107,10 +107,21 @@ end
 epsilon_mean = mean(epsilon);
 
 %eps_compensation = exp(-2j*pi*epsilon_mean/fft_length * (1:sample_count));
-eps_compensation = exp(2j*pi* 0.08  /fft_length * (1:sample_count));
+%eps_compensation = exp(2j*pi* 0.08  /fft_length * (1:sample_count));
 
 
-tx_in = tx_in .* eps_compensation;
+%tx_in = tx_in .* eps_compensation;
+
+pilots = tx_in(17:end);
+pilots = pilots(1:160:end);
+plot(angle(pilots))
+phase = [];
+for i = 1:length(pilots)-1
+   phase = [phase unwrap(angle(pilots(i+1)))-unwrap(angle(pilots(i)))] 
+end
+phase = mean(unwrap(phase))
+
+tx_in = tx_in .* exp(-j*phase/160*(1:sample_count));
 
 pilots = tx_in(17:end);
 pilots = pilots(1:160:end);
