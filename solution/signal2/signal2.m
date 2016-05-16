@@ -11,7 +11,7 @@ out_H_abs = [];
 %without the offset the channel estimation is crap, 
 %why better?? next ofdm symbol interfers??
 %average of the signal processing for several valid offsets
-for offset = 2:12
+for offset = 3:11
     time_sig=[zeros(1,offset) Signal(1:end-offset)];
     
     %do ofdm operations
@@ -41,16 +41,12 @@ for offset = 2:12
     ideal = carrier_mapping(ideal,64,'A');
     ideal = remove_unused(ideal,64);
     
-    
+     
     %% new channel estimation with all used carriers, also now known data
     % (data is used as pilots)
     % assumed constant channel
-    % this should be the mean LS estimation (?)
-    H = remove_unused(fft_sig_save,64) ./ ideal;
-    H = sum(H, 2)/size(ideal,2);
-    H = repmat(H,1,size(ideal,2));
+    H = channel_estimation_LS(remove_unused(fft_sig_save,64),ideal);    
     fft_sig=remove_unused(fft_sig_save,64)./H;
-    
     
     %% calculate channel
     H_abs = abs(H);
@@ -60,9 +56,9 @@ for offset = 2:12
     fft_noise = fft_sig-ideal;
     fft_noise = reshape(fft_noise, 1, []);
     % plot(fft_noise, '*');
-    p_noise = var(fft_noise)
+    p_noise = var(fft_noise);
     p_sig = 1;
-    SIR = p_sig/p_noise
+    SIR = p_sig/p_noise;
     
     %%save output
     out_snr = [out_snr, SIR];
