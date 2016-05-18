@@ -5,7 +5,7 @@ function [ freq_offset ] = freq_offset_est_DC( sig, fft_len )
 %   before FFT. The signal has to be time synced (beginning with the first
 %   sample of the first ofdm symbol)
 
-fft_len_padded = 2^16;
+fft_len_padded = 2^18;
 frame_len = fft_len /4*5;
 current_sample = 1;
 sample_count = size(sig, 2);
