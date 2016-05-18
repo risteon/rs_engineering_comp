@@ -4,7 +4,7 @@ mod_scheme = 4;
 pilot = 'A';
 
 %% nothing to change here
-addpath('toolbox')
+addpath('../../toolbox')
 window_len = prefix_len + symbol_len;
 n_symbols = length(Signal)/window_len;
 
