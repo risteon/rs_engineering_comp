@@ -5,6 +5,7 @@ clf
 pilot_meth = 'B';
 prefix_len = 16;
 fft_len = 4*prefix_len;
+mod_scheme=8;
 
 sig=Signal;
 
@@ -34,11 +35,11 @@ fft_sig = remove_pilot(fft_sig, pilot_meth, fft_len);
 plot(reshape(fft_sig,[],1),'*')
 
 %demod
-% syms = pskdemod(fft_sig, 8, 0);
-% text = ascii_decoding(syms, 8)
+syms = pskdemod(fft_sig, mod_scheme, 0);
+text = ascii_decoding(psk2bitstring(fft_sig, mod_scheme))
 
 %remodulate
-ideal = pskmod(syms, 8);
+ideal = pskmod(syms, mod_scheme);
 ideal = carrier_mapping(ideal,fft_len,pilot_meth);
 ideal = remove_unused(ideal,fft_len);
 
