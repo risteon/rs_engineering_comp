@@ -13,7 +13,7 @@ elseif const_points == 4
     dec = [];
     % convert binary columns to int
     for i = 1:size(b,2)
-       dec = [dec bi2de(b(:,i)')];
+       dec = [dec bi2de(b(:,i)', 'left-msb')];
     end
     s = pskmod(dec, 4, pi/4);
 elseif const_points == 8
@@ -22,7 +22,7 @@ elseif const_points == 8
     dec = [];
     % convert binary columns to int
     for i = 1:size(b,2)
-        dec = [dec bi2de(b(:,i)')];
+        dec = [dec bi2de(b(:,i)', 'left-msb')];
     end
     s = pskmod(dec, 8);
 end
