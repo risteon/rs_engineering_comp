@@ -1,5 +1,6 @@
 load('../../material/Signal1.mat');
 
+symbol_len = 64;
 prefix_len = 16;
 mod_scheme = 4;
 pilot = 'A';
@@ -23,7 +24,7 @@ fft_sig = fftshift(fft(sig),1);
 fft_sig = remove_unused(fft_sig, symbol_len);
 
 % psk demodulation
-syms = pskdemod(fft_sig, mod_scheme, pi/mod_scheme);
+syms = psk2bitstring(fft_sig, mod_scheme);
 
 % ascii decoding
-text = ascii_decoding(syms, mod_scheme)
+text = ascii_decoding(syms);

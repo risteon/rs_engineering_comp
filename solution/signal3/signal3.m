@@ -33,7 +33,7 @@ for offset = 2:10
     
     % psk demodulation
     syms = pskdemod(fft_sig, mod_scheme,1*pi/4);
-    text = ascii_decoding(syms, mod_scheme);
+    text = ascii_decoding(psk2bitstring(fft_sig, mod_scheme));
     
     % %re-modulate decoded signal
     ideal = pskmod(syms, mod_scheme, pi/4);
