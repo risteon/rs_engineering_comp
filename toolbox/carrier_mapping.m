@@ -9,6 +9,9 @@ assert(fft_len == 32 | fft_len == 64 | fft_len == 128);
 unused_carriers=get_unused_carriers(fft_len,0);
 ofdm_pilot_carriers = get_pilot_carriers(fft_len,0);
 
+%make a row vec
+symbols = reshape(symbols,1,[]);
+
 if(pilot_method == 'A')
     tx_sym_per_ofdm_sym = fft_len-length(unused_carriers);
     used_carriers = -fft_len/2:fft_len/2-1;

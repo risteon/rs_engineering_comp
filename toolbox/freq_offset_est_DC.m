@@ -9,7 +9,7 @@ fft_len_padded = 2^18;
 frame_len = fft_len /4*5;
 current_sample = 1;
 sample_count = size(sig, 2);
-f = zeros(1, fft_len_padded);
+superpos = zeros(1, fft_len_padded);
 win_faktor = 8;
 window = -fft_len_padded/win_faktor:+fft_len_padded/win_faktor;
 window = window + fft_len_padded/2;
@@ -18,15 +18,13 @@ pos = [];
 while current_sample + frame_len < sample_count
     %one ofdm symbol (shifted)
     r = sig(current_sample+5:current_sample+frame_len-1-11);
-    f = fft(r,fft_len_padded);
+    fft_vec = fft(r,fft_len_padded);
     current_sample = current_sample + frame_len;
     
-    f=abs(fftshift(f));
-   plot(f);
-    [m, p] = min(f(window));
-    pos = [pos p];
+    superpos=superpos+abs(fftshift(fft_vec));
+    plot(superpos);
 end
-pos = mean(pos);
+[m, pos] = min(superpos(window));
 assert(length(pos) == 1);
 freq_offset = (pos+fft_len_padded/2-fft_len_padded/win_faktor)/fft_len_padded;
 freq_offset = (freq_offset-1/2);
