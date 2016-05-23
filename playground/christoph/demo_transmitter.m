@@ -1,8 +1,8 @@
 %% Parameters
 addpath('../../toolbox');
-data = 'test test test test test test test';
+data = 'test test test test test test test34';
 %   const_points: number of psk points (2, 4 or 8)
-psk_points = 8;
+psk_points = 4;
 %   pilot_method: 'A' or 'B'
 pilot_method = 'A';
 %   fft_len 32, 64, 128
@@ -39,25 +39,3 @@ fft_sig = remove_pilot(fft_sig, pilot_method, fft_len);
 syms = psk2bitstring(fft_sig, psk_points);
 
 received_text = ascii_decoding(syms);
-
-b_n = ascii_coding(data);
-
-
-%% Symbol Modulation
-
-s_n1 = symbol_mod(b_n, psk_points);
-
-%% Carrier Mapping
-
-A = carrier_mapping(s_n1, fft_len, pilot_method);
-
-%% IFFT
-
-a = tm_ifft(A);
-
-%% Cyclic Prefix
-
-tx_out = cyclic_prefix_adding(a);
-
-syms = psk2bitstring(s_n1, psk_points);
-text = ascii_decoding(syms)
