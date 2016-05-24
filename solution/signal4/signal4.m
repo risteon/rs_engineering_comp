@@ -1,5 +1,5 @@
 %% Parameter
-clear all;
+% DO NOT CLEAR ALL!
 
 pilot_method = 'A';
 fft_len = 64;

@@ -44,7 +44,7 @@ if ( (nargin < 2) || isempty(bVerbose) )
 end
 bPrintCheckResults = bVerbose;
 if ( (nargin < 1) || isempty(stResults) )
-    stResults = 'Auswertung\Examples\Results1.mat';
+    stResults = '../solution/Results.mat';
 end
 
 % input type
