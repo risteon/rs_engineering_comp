@@ -1,8 +1,8 @@
 %% Parameters
 addpath('../../toolbox');
-data = 'test test test test test test test34';
+data = 'test test test test test test test test test test test test test test test test test test test test testa';
 %   const_points: number of psk points (2, 4 or 8)
-psk_points = 4;
+psk_points = 8;
 %   pilot_method: 'A' or 'B'
 pilot_method = 'A';
 %   fft_len 32, 64, 128
@@ -13,7 +13,7 @@ fft_len = 64;
 tx = signal_generator(data, psk_points, fft_len, pilot_method);
 
 % no channel
-rx = tx;
+rx = channel_model(tx, 0, 1, 0, Inf(1), 0.2);
 
 %% Demodulation
 
@@ -30,6 +30,8 @@ fft_sig = shape_ofdm(rx, fft_len, fft_len/4);
 
 %channel correction with H
 %fft_sig = fft_sig./H;
+
+plot(reshape(fft_sig,[],1),'*');
 
 %delete unused carriers and pilots
 fft_sig = remove_unused(fft_sig, fft_len);

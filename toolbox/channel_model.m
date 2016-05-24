@@ -1,10 +1,11 @@
-function [ rx_out ] = channel_model( tx_in, tau_delay, h, delta_f, snr )
+function [ rx_out ] = channel_model( tx_in, tau_delay, h, delta_f, snr, delta_Q )
 %CHANNEL_MODEL
 %   tx_in: signal to transmit
 %   tau_delay: delay in samples
 %   h: complex channel impulse response
 %   delta_f: carrier frequency offset delta f/f_a
 %   snr: SNR
+%   delta_Q: IQ imbalance (complex)
 
 %% check input and use default values
 assert(exist('tx_in', 'var') ~= 0, 'tx in not set');
@@ -21,8 +22,16 @@ end
 if ~exist('snr', 'var')
     snr = Inf(1);
 end
+if ~exist('delta_Q', 'var')
+    delta_Q = 0;
+end
 
 assert(tau_delay >= 0.0);
+
+%% IQ ímbalance
+
+tx_in = real(tx_in) + 1j * (1 + delta_Q) * imag(tx_in);
+
 
 %% delay
 
