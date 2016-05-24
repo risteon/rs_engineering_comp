@@ -53,9 +53,9 @@ for offset = 4:10
     fft_sig_save = fft_sig;
     
     %% simple channel estimation and correction
-    H = fft_sig(:,1:2:end);
-    H = repmat(H,2,1);
-    H = reshape(H, 64 ,[]);
+    %H = fft_sig(:,1:2:end);
+    %H = repmat(H,2,1);
+    %H = reshape(H, 64 ,[]);
     
     H=channel_estimation_methA_2DInterpolation(fft_sig,64,'linear');
     H(:,end)=fft_sig(:,end-1);

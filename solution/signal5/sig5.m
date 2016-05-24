@@ -9,12 +9,13 @@ mod_scheme=8;
 
 sig=Signal;
 
-%TODO: estimate
-sig = resample(sig, 40007,40000);
-
 %freq estimate
 eps = freq_offset_est_DC(sig(19:end), 64);
 sig = sig .* exp(-1j*eps*2*pi*(1:size(sig,2)));
+
+%TODO: estimate sampling offset
+sig = resample(sig, 40007,40000);
+
 
 %TODO: timing estimate
 sig = sig(19:end);

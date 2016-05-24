@@ -18,7 +18,7 @@ for offset = 3:11
     fft_sig = shape_ofdm(time_sig, symbol_len, prefix_len);
     
     %compensate resulting phase drift from offset
-    drehvector = +2j*pi*offset/64*(0:63).';
+    drehvector = +2j*pi*offset/64*(0:symbol_len-1).';
     fft_sig = fftshift(ifftshift(fft_sig,1) .* repmat(exp(drehvector),1,size(fft_sig,2)),1);
     
     fft_sig_save = fft_sig;
