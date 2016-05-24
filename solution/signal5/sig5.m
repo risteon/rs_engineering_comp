@@ -11,11 +11,6 @@ sig=Signal;
 
 %freq estimate
 eps = freq_offset_est_DC(sig(19:end), 64);
-sig = sig .* exp(-1j*eps*2*pi*(1:size(sig,2)));
-
-%TODO: estimate sampling offset
-sig = resample(sig, 40009,40000);
-
 
 %TODO: timing estimate
 sig = sig(19:end);
@@ -25,6 +20,31 @@ fft_sig = shape_ofdm(sig, fft_len, prefix_len);
 fft_sig_save = fft_sig;
 
 %channel estimation
+
+
+res = 40000;
+
+% estimate sampling offset
+for i = 1:10
+    val = sum(unwrap(angle(fft_sig(29,:)) - angle(fft_sig(5,:))));
+    if val > 0
+        res = res + 1;
+    else
+        res = res - 1;
+    end
+    res
+    sig = resample(Signal, res, 40000);
+    sig = sig .* exp(-1j*eps*2*pi*(1:size(sig,2)));
+    sig = sig(19:end);
+    fft_sig = shape_ofdm(sig, fft_len, prefix_len);
+end
+
+%plot(angle(fft_sig(5,:)))
+%hold on
+%plot(angle(fft_sig(13,:)))
+%plot(angle(fft_sig(21,:)))
+%plot(angle(fft_sig(29,:)))
+
 H = channel_estimation_methB_2DInterpolation(fft_sig,64,'linear');
 fft_sig=fft_sig./H;
 %plot(abs(fft_sig(5,:)));
