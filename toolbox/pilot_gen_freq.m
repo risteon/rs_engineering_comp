@@ -18,15 +18,16 @@ if(pilot_method == 'A')
     if(fft_len ==32)
         pilot_vec(unused_carriers_32+fft_len/2+1)=0;
     elseif(fft_len==64)
-        pilot_vec(unused_carriers_64+fft_len/2+1)=0;        
+        pilot_vec(unused_carriers_64+fft_len/2+1)=0;
     elseif(fft_len==128)
-        pilot_vec(unused_carriers_128+fft_len/2+1)=0;        
+        pilot_vec(unused_carriers_128+fft_len/2+1)=0;
     end
     
-else if(pilot_method == 'B')
-        assert(0, 'method b not yet implemented');
-    end
-    
-    
+elseif(pilot_method == 'B')
+    pilot_vec=zeros(fft_len,1);
+    pilot_vec(get_pilot_carriers(fft_len,1))=1;
+end
+
+
 end
 
