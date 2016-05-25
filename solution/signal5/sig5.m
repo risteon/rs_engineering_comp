@@ -45,6 +45,8 @@ end
 %plot(angle(fft_sig(21,:)))
 %plot(angle(fft_sig(29,:)))
 
+fft_sig_save = fft_sig;
+
 H = channel_estimation_methB_2DInterpolation(fft_sig,64,'linear');
 fft_sig=fft_sig./H;
 %plot(abs(fft_sig(5,:)));
@@ -65,8 +67,7 @@ ideal = carrier_mapping(ideal,fft_len,pilot_meth);
 ideal = remove_unused(ideal,fft_len);
 
 %%mean channel
-H_abs = abs(H);
-H_abs = mean(H_abs,2);
+H_abs = mean(abs(remove_unused(fft_sig_save,fft_len)),2);
 
 fft_sig = remove_unused(fft_sig_save./H,fft_len);
 
