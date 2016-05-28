@@ -32,10 +32,10 @@ for shift = 1:symb_len
             break
         end
         
-        part_one = sig(a+symbol_shift:b+symbol_shift);
-        part_two = sig(c+symbol_shift:d+symbol_shift);
+        part_one = abs(sig(a+symbol_shift:b+symbol_shift));
+        part_two = abs(sig(c+symbol_shift:d+symbol_shift));
         
-        score = score + sum(part_one .* conj(part_two));
+        score = score + sum((part_one -mean(part_one)) .* (part_two - mean(part_two)));
         
         frame_no = frame_no + 1;
     end
