@@ -7,23 +7,47 @@ fft_len = 32;
 prefix_len = fft_len/4;
 mod_scheme = 4;
 
-shift = 44;
-
 sig = Signal;
 
-%cut_out = sig(1+shift:shift+128 + 32);
+%% t sync
 
-%[t, lags] = xcorr(cut_out);
-%[~, idx] = max(t);
+symb_len = 128;
+pre_len = symb_len / 4;
+frame_len = symb_len + pre_len;
 
-%lags(idx)
+scores = zeros(1, symb_len);
 
-%plot(abs(xcorr(cut_out)));
-%plot(abs(cut_out));
-%return
+for shift = 1:symb_len
+    score = 0;
+    
+    frame_no = 0;
+    while 1
+        a = shift;
+        b = shift + pre_len - 1;
+        c = shift + symb_len;
+        d = shift + frame_len - 1;
+        
+        symbol_shift = frame_no * frame_len;
+        if d + symbol_shift > size(sig, 2)
+            break
+        end
+        
+        part_one = sig(a+symbol_shift:b+symbol_shift);
+        part_two = sig(c+symbol_shift:d+symbol_shift);
+        
+        score = score + sum(part_one .* conj(part_two));
+        
+        frame_no = frame_no + 1;
+    end
+   
+    scores(shift) = score;
+    
+end
 
-%TODO: timing estimate
-sig = sig(1+shift:end);
+[~, t_sync_shift] = max(scores);
+sig = sig(t_sync_shift:end);
+
+%% Frequency offset
 
 % equalize transmitter sampling period
 sig = resample(sig, 1, 128/fft_len);
