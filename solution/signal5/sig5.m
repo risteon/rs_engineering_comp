@@ -32,7 +32,7 @@ for i = 1:10
     else
         res = res - 1;
     end
-    res
+    res;
     sig = resample(Signal, res, 40000);
     sig = sig .* exp(-1j*eps*2*pi*(1:size(sig,2)));
     sig = sig(19:end);
